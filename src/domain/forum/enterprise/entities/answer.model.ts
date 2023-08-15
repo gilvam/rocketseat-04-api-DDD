@@ -1,6 +1,7 @@
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
-import { Optional } from '@entities/types/optional';
+
+import { Optional } from '@/domain/forum/enterprise/entities/types/optional';
 
 export interface IAnswer {
 	authorId: UniqueEntityId;

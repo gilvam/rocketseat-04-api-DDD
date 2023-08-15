@@ -26,6 +26,31 @@ module.exports = {
 		'no-tabs': 'off',
 		'no-useless-constructor': 'off',
 		'@typescript-eslint/no-useless-constructor': 'error',
+		'sort-imports': [
+			'error',
+			{ ignoreCase: true, ignoreDeclarationSort: true },
+		],
+		'import/order': [
+			1,
+			{
+				groups: [
+					['external', 'builtin'],
+					'internal',
+					['sibling', 'parent'],
+					'index',
+				],
+				pathGroups: [
+					{ pattern: '@domain-forum/**', group: 'internal' },
+					{ pattern: '@core/**', group: 'internal', position: 'after' },
+				],
+				pathGroupsExcludedImportTypes: ['internal'],
+				alphabetize: {
+					order: 'asc',
+					caseInsensitive: true,
+				},
+				'newlines-between': 'always',
+			},
+		],
 	},
 	settings: {
 		'import/parsers': {

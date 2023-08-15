@@ -1,11 +1,16 @@
-import { Answer } from '@entities/answer.model';
-import { IAnswersRepository } from '@repositories/AnswersRepository';
+import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository';
+import { Answer } from '@domain-forum/enterprise/entities/answer.model';
+
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 interface IAnswerQuestionUseCase {
 	instructorId: string;
 	questionId: string;
 	content: string;
+}
+
+interface IAnswerQuestionUseCaseResponse {
+	answer: Answer;
 }
 
 export class AnswerQuestionUseCase {
@@ -15,7 +20,7 @@ export class AnswerQuestionUseCase {
 		instructorId,
 		questionId,
 		content,
-	}: IAnswerQuestionUseCase) {
+	}: IAnswerQuestionUseCase): Promise<IAnswerQuestionUseCaseResponse> {
 		const answer = Answer.create({
 			content,
 			authorId: new UniqueEntityId(instructorId),
@@ -24,6 +29,6 @@ export class AnswerQuestionUseCase {
 
 		await this.answersRepository.create(answer);
 
-		return answer;
+		return { answer };
 	}
 }

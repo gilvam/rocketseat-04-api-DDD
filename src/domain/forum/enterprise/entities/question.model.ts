@@ -1,8 +1,10 @@
-import { Slug } from '@entities/value-objects/slug';
+import dayjs from 'dayjs';
+
+import { Optional } from '@domain-forum/enterprise/entities/types/optional';
+import { Slug } from '@domain-forum/enterprise/entities/value-objects/slug';
+
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
-import { Optional } from '@entities/types/optional';
-import dayjs from 'dayjs';
 
 export interface IQuestion {
 	authorId: UniqueEntityId;
