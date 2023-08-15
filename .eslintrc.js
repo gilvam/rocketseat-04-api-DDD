@@ -41,7 +41,8 @@ module.exports = {
 				],
 				pathGroups: [
 					{ pattern: '@domain-forum/**', group: 'internal' },
-					{ pattern: '@core/**', group: 'internal', position: 'after' },
+					{ pattern: '@core/**', group: 'internal' },
+					{ pattern: '@tests/**', group: 'internal', position: 'after' },
 				],
 				pathGroupsExcludedImportTypes: ['internal'],
 				alphabetize: {

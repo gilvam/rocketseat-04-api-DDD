@@ -2,12 +2,12 @@ import { beforeEach, describe, expect, test } from 'vitest';
 
 import { CreateQuestionUseCase } from '@domain-forum/application/use-cases/create-question';
 
-import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository';
+import { InMemoryQuestionRepository } from '@tests/repositories/in-memory-question-repository';
 
 let inMemoryQuestionRepository: InMemoryQuestionRepository;
 let sut: CreateQuestionUseCase;
 
-describe('Create Question', () => {
+describe('Create question', () => {
 	beforeEach(() => {
 		inMemoryQuestionRepository = new InMemoryQuestionRepository();
 		sut = new CreateQuestionUseCase(inMemoryQuestionRepository);

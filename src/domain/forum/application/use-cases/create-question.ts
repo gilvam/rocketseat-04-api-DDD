@@ -1,4 +1,4 @@
-import { IQuestionRepository } from '@domain-forum/application/repositories/question-repository';
+import { IQuestionRepository } from '@domain-forum/application/repositories/question-repository.interface';
 import { Question } from '@domain-forum/enterprise/entities/question.model';
 
 import { UniqueEntityId } from '@core/entities/unique-entity-id';

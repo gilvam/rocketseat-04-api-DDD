@@ -1,4 +1,4 @@
-import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository';
+import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository.interface';
 import { Answer } from '@domain-forum/enterprise/entities/answer.model';
 
 export class InMemoryAnswersRepository implements IAnswersRepository {
