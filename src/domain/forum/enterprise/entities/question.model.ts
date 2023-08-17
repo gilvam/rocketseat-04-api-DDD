@@ -6,6 +6,7 @@ import { Slug } from '@domain-forum/enterprise/entities/value-objects/slug';
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
+/** TODO interface move to a new file */
 export interface IQuestion {
 	authorId: UniqueEntityId;
 	bestAnswerId?: UniqueEntityId;

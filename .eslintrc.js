@@ -40,8 +40,12 @@ module.exports = {
 					'index',
 				],
 				pathGroups: [
-					{ pattern: '@domain-forum/**', group: 'internal' },
-					{ pattern: '@core/**', group: 'internal' },
+					{
+						pattern: '@domain-forum/**',
+						group: 'internal',
+						position: 'after',
+					},
+					{ pattern: '@core/**', group: 'internal', position: 'after' },
 					{ pattern: '@tests/**', group: 'internal', position: 'after' },
 				],
 				pathGroupsExcludedImportTypes: ['internal'],
