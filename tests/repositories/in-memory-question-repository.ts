@@ -1,7 +1,7 @@
-import { IQuestionRepository } from '@domain-forum/application/repositories/question-repository.interface';
+import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
 import { Question } from '@domain-forum/enterprise/entities/question.model';
 
-export class InMemoryQuestionRepository implements IQuestionRepository {
+export class InMemoryQuestionRepository implements IQuestionsRepository {
 	items: Question[] = [];
 
 	async create(question: Question) {

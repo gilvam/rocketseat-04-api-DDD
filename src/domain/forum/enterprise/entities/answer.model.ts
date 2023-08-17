@@ -3,6 +3,7 @@ import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 import { Optional } from '@/domain/forum/enterprise/entities/types/optional';
 
+/** TODO interface move to a new file */
 export interface IAnswer {
 	authorId: UniqueEntityId;
 	questionId: UniqueEntityId;

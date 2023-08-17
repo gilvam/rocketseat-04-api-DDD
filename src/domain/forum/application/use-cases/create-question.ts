@@ -1,4 +1,4 @@
-import { IQuestionRepository } from '@domain-forum/application/repositories/question-repository.interface';
+import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
 import { Question } from '@domain-forum/enterprise/entities/question.model';
 
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
@@ -14,7 +14,7 @@ interface ICreateQuestionUseCaseResponse {
 }
 
 export class CreateQuestionUseCase {
-	constructor(private questionRepository: IQuestionRepository) {}
+	constructor(private questionsRepository: IQuestionsRepository) {}
 
 	async execute({
 		authorId,
@@ -27,7 +27,7 @@ export class CreateQuestionUseCase {
 			content,
 		});
 
-		await this.questionRepository.create(question);
+		await this.questionsRepository.create(question);
 
 		return { question };
 	}

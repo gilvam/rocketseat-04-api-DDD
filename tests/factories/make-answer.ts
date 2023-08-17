@@ -1,20 +1,20 @@
 import { faker } from '@faker-js/faker';
 
 import {
-	IQuestion,
-	Question,
-} from '@domain-forum/enterprise/entities/question.model';
+	Answer,
+	IAnswer,
+} from '@domain-forum/enterprise/entities/answer.model';
 
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
-export function makeQuestion(
-	override: Partial<IQuestion> = {},
+export function makeAnswer(
+	override: Partial<IAnswer> = {},
 	id?: UniqueEntityId,
 ) {
-	return Question.create(
+	return Answer.create(
 		{
 			authorId: new UniqueEntityId(),
-			title: faker.person.fullName(),
+			questionId: new UniqueEntityId(),
 			content: faker.lorem.text(),
 			...override,
 		},

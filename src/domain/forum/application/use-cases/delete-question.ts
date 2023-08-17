@@ -1,4 +1,4 @@
-import { IQuestionRepository } from '@domain-forum/application/repositories/question-repository.interface';
+import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
 
 interface IDeleteQuestionUseCase {
 	id: string;
@@ -8,13 +8,13 @@ interface IDeleteQuestionUseCase {
 interface IDeleteQuestionUseCaseResponse {}
 
 export class DeleteQuestionUseCase {
-	constructor(private questionRepository: IQuestionRepository) {}
+	constructor(private questionsRepository: IQuestionsRepository) {}
 
 	async execute({
 		id,
 		authorId,
 	}: IDeleteQuestionUseCase): Promise<IDeleteQuestionUseCaseResponse> {
-		const question = await this.questionRepository.findById(id);
+		const question = await this.questionsRepository.findById(id);
 
 		if (!question) {
 			throw new Error('Question not found.');
@@ -22,7 +22,7 @@ export class DeleteQuestionUseCase {
 		if (authorId !== question.id.toString()) {
 			throw new Error('Not allowed.');
 		}
-		await this.questionRepository.delete(question);
+		await this.questionsRepository.delete(question);
 
 		return {};
 	}
