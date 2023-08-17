@@ -1,20 +1,20 @@
 import { IQuestionRepository } from '@domain-forum/application/repositories/question-repository.interface';
 import { Question } from '@domain-forum/enterprise/entities/question.model';
 
-interface getQuestionBySlugUseCase {
+interface IGetQuestionBySlugUseCase {
 	slug: string;
 }
 
-interface getQuestionBySlugUseCaseResponse {
+interface IGetQuestionBySlugUseCaseResponse {
 	question: Question;
 }
 
-export class GetQuestionBySlug {
+export class GetQuestionBySlugUseCase {
 	constructor(private questionRepository: IQuestionRepository) {}
 
 	async execute({
 		slug,
-	}: getQuestionBySlugUseCase): Promise<getQuestionBySlugUseCaseResponse> {
+	}: IGetQuestionBySlugUseCase): Promise<IGetQuestionBySlugUseCaseResponse> {
 		const question = await this.questionRepository.findBySlug(slug);
 
 		if (!question) {

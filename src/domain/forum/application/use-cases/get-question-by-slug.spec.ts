@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import { GetQuestionBySlug } from '@domain-forum/application/use-cases/get-question-by-slug';
+import { GetQuestionBySlugUseCase } from '@domain-forum/application/use-cases/get-question-by-slug';
 
 import { makeQuestion } from '@tests/factories/make-question';
 import { InMemoryQuestionRepository } from '@tests/repositories/in-memory-question-repository';
 
 let inMemoryQuestionRepository: InMemoryQuestionRepository;
-let sut: GetQuestionBySlug;
+let sut: GetQuestionBySlugUseCase;
 
 describe('Find question by slug', () => {
 	beforeEach(() => {
 		inMemoryQuestionRepository = new InMemoryQuestionRepository();
-		sut = new GetQuestionBySlug(inMemoryQuestionRepository);
+		sut = new GetQuestionBySlugUseCase(inMemoryQuestionRepository);
 	});
 	test('Should be able to get a question by slug', async () => {
 		const title = 'Example Question';
