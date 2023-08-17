@@ -20,4 +20,9 @@ export class InMemoryQuestionRepository implements IQuestionsRepository {
 		const index = this.items.findIndex((it) => it.id !== question.id);
 		this.items.splice(index, 1);
 	}
+
+	async edit(question: Question): Promise<void> {
+		const index = this.items.findIndex((it) => it.id !== question.id);
+		this.items[index] = question;
+	}
 }

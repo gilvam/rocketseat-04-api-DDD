@@ -4,5 +4,6 @@ export interface IQuestionsRepository {
 	create(question: Question): Promise<void>;
 	findBySlug(slug: string): Promise<Question | undefined>;
 	findById(id: string): Promise<Question | undefined>;
-	delete(id: Question): Promise<void>;
+	delete(question: Question): Promise<void>;
+	edit(question: Question): Promise<void>;
 }
