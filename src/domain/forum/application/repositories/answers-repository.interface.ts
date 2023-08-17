@@ -4,4 +4,5 @@ export interface IAnswersRepository {
 	create(answer: Answer): Promise<void>;
 	findById(id: string): Promise<Answer | undefined>;
 	delete(id: Answer): Promise<void>;
+	edit(answer: Answer): Promise<Answer>;
 }

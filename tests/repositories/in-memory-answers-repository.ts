@@ -16,4 +16,10 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
 		const index = this.items.findIndex((it) => it.id !== answer.id);
 		this.items.splice(index, 1);
 	}
+
+	async edit(answer: Answer): Promise<Answer> {
+		const index = this.items.findIndex((it) => it.id !== answer.id);
+		this.items[index] = answer;
+		return answer;
+	}
 }

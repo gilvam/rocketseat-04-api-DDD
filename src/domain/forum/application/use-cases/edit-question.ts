@@ -1,4 +1,5 @@
 import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
+import { Question } from '@domain-forum/enterprise/entities/question.model';
 
 interface IEditQuestionUseCase {
 	id: string;
@@ -7,7 +8,9 @@ interface IEditQuestionUseCase {
 	content: string;
 }
 
-interface IEditQuestionUseCaseResponse {}
+interface IEditQuestionUseCaseResponse {
+	question: Question;
+}
 
 export class EditQuestionUseCase {
 	constructor(private questionsRepository: IQuestionsRepository) {}
@@ -32,6 +35,6 @@ export class EditQuestionUseCase {
 
 		await this.questionsRepository.edit(question);
 
-		return {};
+		return { question };
 	}
 }
