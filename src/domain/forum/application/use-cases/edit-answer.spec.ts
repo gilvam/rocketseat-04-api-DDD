@@ -16,7 +16,7 @@ describe('Edit answer', () => {
 		sut = new EditAnswerUseCase(inMemoryAnswerRepository);
 	});
 
-	test('Should be able to edit answer', async () => {
+	test('UseCase be able to edit answer', async () => {
 		const newAnswer = makeAnswer(
 			{ authorId: new UniqueEntityId('author-1') },
 
@@ -35,7 +35,7 @@ describe('Edit answer', () => {
 		});
 	});
 
-	test('Should not be able to edit answer', async () => {
+	test('UseCase not be able to edit answer', async () => {
 		const newAnswer = makeAnswer({}, new UniqueEntityId());
 
 		await inMemoryAnswerRepository.create(newAnswer);

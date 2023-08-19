@@ -16,7 +16,7 @@ describe('Delete answer', () => {
 		sut = new DeleteAnswerUseCase(inMemoryAnswerRepository);
 	});
 
-	test('Should be able to delete answer', async () => {
+	test('UseCase be able to delete answer', async () => {
 		const id = 'answer-1';
 		const authorId = 'answer-1';
 		const newAnswer = makeAnswer({}, new UniqueEntityId(id));
@@ -27,7 +27,7 @@ describe('Delete answer', () => {
 		expect(inMemoryAnswerRepository.items).toHaveLength(0);
 	});
 
-	test('Should not be able to delete answer', async () => {
+	test('UseCase not be able to delete answer', async () => {
 		const id = 'answer-1';
 		const authorId = 'answer-2';
 		const newAnswer = makeAnswer({}, new UniqueEntityId(id));

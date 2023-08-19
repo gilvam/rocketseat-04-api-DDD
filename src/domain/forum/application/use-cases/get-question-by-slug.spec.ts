@@ -13,7 +13,7 @@ describe('Find question by slug', () => {
 		inMemoryQuestionRepository = new InMemoryQuestionRepository();
 		sut = new GetQuestionBySlugUseCase(inMemoryQuestionRepository);
 	});
-	test('Should be able to get a question by slug', async () => {
+	test('UseCase be able to get a question by slug', async () => {
 		const title = 'Example Question';
 		const newQuestion = makeQuestion({ title });
 

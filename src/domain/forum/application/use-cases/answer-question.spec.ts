@@ -12,7 +12,7 @@ describe('Create an answer', () => {
 		inMemoryAnswersRepository = new InMemoryAnswersRepository();
 		sut = new AnswerQuestionUseCase(inMemoryAnswersRepository);
 	});
-	test('Should be able to create an answer', async () => {
+	test('UseCase be able to create an answer', async () => {
 		const answerQuestion = new AnswerQuestionUseCase(
 			inMemoryAnswersRepository,
 		);
