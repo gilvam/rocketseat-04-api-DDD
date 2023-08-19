@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { DeleteQuestionUseCase } from '@domain-forum/application/use-cases/delete-question';
 
@@ -16,7 +16,7 @@ describe('Delete question', () => {
 		sut = new DeleteQuestionUseCase(inMemoryQuestionRepository);
 	});
 
-	test('UseCase be able to delete question', async () => {
+	it('UseCase be able to delete question', async () => {
 		const id = 'question-1';
 		const authorId = 'question-1';
 		const newQuestion = makeQuestion({}, new UniqueEntityId(id));
@@ -27,7 +27,7 @@ describe('Delete question', () => {
 		expect(inMemoryQuestionRepository.items).toHaveLength(0);
 	});
 
-	test('UseCase not be able to delete question', async () => {
+	it('UseCase not be able to delete question', async () => {
 		const id = 'question-1';
 		const authorId = 'question-2';
 		const newQuestion = makeQuestion({}, new UniqueEntityId(id));

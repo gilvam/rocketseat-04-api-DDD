@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, it, test } from 'vitest';
 
 import { GetQuestionBySlugUseCase } from '@domain-forum/application/use-cases/get-question-by-slug';
 
@@ -13,7 +13,8 @@ describe('Find question by slug', () => {
 		inMemoryQuestionRepository = new InMemoryQuestionRepository();
 		sut = new GetQuestionBySlugUseCase(inMemoryQuestionRepository);
 	});
-	test('UseCase be able to get a question by slug', async () => {
+
+	it('UseCase be able to get a question by slug', async () => {
 		const title = 'Example Question';
 		const newQuestion = makeQuestion({ title });
 

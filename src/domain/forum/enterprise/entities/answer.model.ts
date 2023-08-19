@@ -43,7 +43,13 @@ export class Answer extends Entity<IAnswer> {
 	}
 
 	static create(props: Optional<IAnswer, 'createdAt'>, id?: UniqueEntityId) {
-		return new Answer({ ...props, createdAt: new Date() }, id);
+		return new Answer(
+			{
+				...props,
+				createdAt: props.createdAt ?? new Date(),
+			},
+			id,
+		);
 	}
 
 	private touch() {

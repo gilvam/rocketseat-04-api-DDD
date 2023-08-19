@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { CreateQuestionUseCase } from '@domain-forum/application/use-cases/create-question';
 
@@ -12,7 +12,8 @@ describe('Create question', () => {
 		inMemoryQuestionRepository = new InMemoryQuestionRepository();
 		sut = new CreateQuestionUseCase(inMemoryQuestionRepository);
 	});
-	test('UseCase be able to create a question', async () => {
+
+	it('UseCase be able to create a question', async () => {
 		const { question } = await sut.execute({
 			authorId: '1',
 			title: 'New question',

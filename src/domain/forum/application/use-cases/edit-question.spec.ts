@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { EditQuestionUseCase } from '@domain-forum/application/use-cases/edit-question';
 
@@ -16,7 +16,7 @@ describe('Edit question', () => {
 		sut = new EditQuestionUseCase(inMemoryQuestionRepository);
 	});
 
-	test('UseCase be able to edit question', async () => {
+	it('UseCase be able to edit question', async () => {
 		const newQuestion = makeQuestion(
 			{ authorId: new UniqueEntityId('author-1') },
 
@@ -37,7 +37,7 @@ describe('Edit question', () => {
 		});
 	});
 
-	test('UseCase not be able to edit question', async () => {
+	it('UseCase not be able to edit question', async () => {
 		const newQuestion = makeQuestion({}, new UniqueEntityId());
 
 		await inMemoryQuestionRepository.create(newQuestion);
