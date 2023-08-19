@@ -36,7 +36,7 @@ describe('Fetch recent questions', () => {
 		]);
 	});
 
-	it('should be able to fetch paginate recent questions', async () => {
+	it('should be able to fetch paginated recent questions', async () => {
 		const page = 2;
 
 		for (let i = 0; i < 22; i++) {

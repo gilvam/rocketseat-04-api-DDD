@@ -1,6 +1,8 @@
 import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository.interface';
 import { Answer } from '@domain-forum/enterprise/entities/answer.model';
 
+import { IPaginatorParams } from '@core/repositories/paginator-params';
+
 export class InMemoryAnswersRepository implements IAnswersRepository {
 	items: Answer[] = [];
 
@@ -10,6 +12,15 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
 
 	async findById(id: string): Promise<Answer | undefined> {
 		return this.items.find((it) => it.id.toString() === id);
+	}
+
+	async findManyBuyQuestionId(
+		questionId: string,
+		{ page }: IPaginatorParams,
+	): Promise<Answer[]> {
+		return this.items
+			.filter((item) => item.questionId.toString() === questionId)
+			.slice((page - 1) * 20, page * 20);
 	}
 
 	async delete(answer: Answer): Promise<void> {
