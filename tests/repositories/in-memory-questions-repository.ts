@@ -3,7 +3,7 @@ import { Question } from '@domain-forum/enterprise/entities/question.model';
 
 import { IPaginatorParams } from '@core/repositories/paginator-params';
 
-export class InMemoryQuestionRepository implements IQuestionsRepository {
+export class InMemoryQuestionsRepository implements IQuestionsRepository {
 	items: Question[] = [];
 
 	async create(question: Question) {

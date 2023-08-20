@@ -5,15 +5,15 @@ import { EditQuestionUseCase } from '@domain-forum/application/use-cases/edit-qu
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 import { makeQuestion } from '@tests/factories/make-question';
-import { InMemoryQuestionRepository } from '@tests/repositories/in-memory-question-repository';
+import { InMemoryQuestionsRepository } from '@tests/repositories/in-memory-questions-repository';
 
-let inMemoryQuestionRepository: InMemoryQuestionRepository;
+let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let sut: EditQuestionUseCase;
 
 describe('Edit question', () => {
 	beforeEach(() => {
-		inMemoryQuestionRepository = new InMemoryQuestionRepository();
-		sut = new EditQuestionUseCase(inMemoryQuestionRepository);
+		inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
+		sut = new EditQuestionUseCase(inMemoryQuestionsRepository);
 	});
 
 	it('UseCase be able to edit question', async () => {
@@ -23,7 +23,7 @@ describe('Edit question', () => {
 			new UniqueEntityId('question-1'),
 		);
 
-		await inMemoryQuestionRepository.create(newQuestion);
+		await inMemoryQuestionsRepository.create(newQuestion);
 		await sut.execute({
 			id: 'question-1',
 			authorId: 'author-1',
@@ -31,7 +31,7 @@ describe('Edit question', () => {
 			title: 'title',
 		});
 
-		expect(inMemoryQuestionRepository.items[0]).toMatchObject({
+		expect(inMemoryQuestionsRepository.items[0]).toMatchObject({
 			content: 'content',
 			title: 'title',
 		});
@@ -40,7 +40,7 @@ describe('Edit question', () => {
 	it('UseCase not be able to edit question', async () => {
 		const newQuestion = makeQuestion({}, new UniqueEntityId());
 
-		await inMemoryQuestionRepository.create(newQuestion);
+		await inMemoryQuestionsRepository.create(newQuestion);
 
 		expect(async () => {
 			return await sut.execute({

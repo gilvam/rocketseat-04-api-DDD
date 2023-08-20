@@ -1,23 +1,16 @@
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
-import { Optional } from '@/domain/forum/enterprise/entities/types/optional';
-
-export interface IAnswer {
+export interface IComment {
 	authorId: UniqueEntityId;
-	questionId: UniqueEntityId;
 	content: string;
 	createdAt: Date;
 	updatedAt?: Date;
 }
 
-export class Answer extends Entity<IAnswer> {
+export abstract class Comment<T extends IComment> extends Entity<T> {
 	get authorId() {
 		return this.props.authorId;
-	}
-
-	get questionId() {
-		return this.props.questionId;
 	}
 
 	get content() {
@@ -35,20 +28,6 @@ export class Answer extends Entity<IAnswer> {
 
 	get updatedAt() {
 		return this.props.updatedAt;
-	}
-
-	get except() {
-		return this.props.content.substring(0, 120).trim().concat('...');
-	}
-
-	static create(props: Optional<IAnswer, 'createdAt'>, id?: UniqueEntityId) {
-		return new Answer(
-			{
-				...props,
-				createdAt: props.createdAt ?? new Date(),
-			},
-			id,
-		);
 	}
 
 	private touch() {

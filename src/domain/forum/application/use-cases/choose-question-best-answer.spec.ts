@@ -7,18 +7,18 @@ import { UniqueEntityId } from '@core/entities/unique-entity-id';
 import { makeAnswer } from '@tests/factories/make-answer';
 import { makeQuestion } from '@tests/factories/make-question';
 import { InMemoryAnswersRepository } from '@tests/repositories/in-memory-answers-repository';
-import { InMemoryQuestionRepository } from '@tests/repositories/in-memory-question-repository';
+import { InMemoryQuestionsRepository } from '@tests/repositories/in-memory-questions-repository';
 
-let inMemoryQuestionRepository: InMemoryQuestionRepository;
+let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let sut: ChooseQuestionBestAnswerUserCase;
 
 describe('Choose question best answer', () => {
 	beforeEach(() => {
-		inMemoryQuestionRepository = new InMemoryQuestionRepository();
+		inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
 		inMemoryAnswersRepository = new InMemoryAnswersRepository();
 		sut = new ChooseQuestionBestAnswerUserCase(
-			inMemoryQuestionRepository,
+			inMemoryQuestionsRepository,
 			inMemoryAnswersRepository,
 		);
 	});
@@ -27,14 +27,14 @@ describe('Choose question best answer', () => {
 		const question = makeQuestion();
 		const answer = makeAnswer({ questionId: question.id });
 
-		await inMemoryQuestionRepository.create(question);
+		await inMemoryQuestionsRepository.create(question);
 		await inMemoryAnswersRepository.create(answer);
 		await sut.execute({
 			authorId: question.authorId.toString(),
 			answerId: answer.id.toString(),
 		});
 
-		expect(inMemoryQuestionRepository.items[0].bestAnswerId).equals(
+		expect(inMemoryQuestionsRepository.items[0].bestAnswerId).equals(
 			answer.id,
 		);
 	});
@@ -45,7 +45,7 @@ describe('Choose question best answer', () => {
 		});
 		const answer = makeAnswer({ questionId: question.id });
 
-		await inMemoryQuestionRepository.create(question);
+		await inMemoryQuestionsRepository.create(question);
 		await inMemoryAnswersRepository.create(answer);
 
 		expect(

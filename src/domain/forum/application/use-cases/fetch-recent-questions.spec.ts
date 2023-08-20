@@ -3,15 +3,15 @@ import { beforeEach, describe, expect, it, test } from 'vitest';
 import { FetchRecentQuestionsUseCase } from '@domain-forum/application/use-cases/fetch-recent-questions';
 
 import { makeQuestion } from '@tests/factories/make-question';
-import { InMemoryQuestionRepository } from '@tests/repositories/in-memory-question-repository';
+import { InMemoryQuestionsRepository } from '@tests/repositories/in-memory-questions-repository';
 
-let inMemoryQuestionRepository: InMemoryQuestionRepository;
+let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let sut: FetchRecentQuestionsUseCase;
 
 describe('Fetch recent questions', () => {
 	beforeEach(() => {
-		inMemoryQuestionRepository = new InMemoryQuestionRepository();
-		sut = new FetchRecentQuestionsUseCase(inMemoryQuestionRepository);
+		inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
+		sut = new FetchRecentQuestionsUseCase(inMemoryQuestionsRepository);
 	});
 
 	it('should be able to fetch recent questions', async () => {
@@ -22,7 +22,7 @@ describe('Fetch recent questions', () => {
 		];
 
 		for (const date of dates) {
-			await inMemoryQuestionRepository.create(
+			await inMemoryQuestionsRepository.create(
 				makeQuestion({ createdAt: date }),
 			);
 		}
@@ -40,7 +40,7 @@ describe('Fetch recent questions', () => {
 		const page = 2;
 
 		for (let i = 0; i < 22; i++) {
-			await inMemoryQuestionRepository.create(makeQuestion());
+			await inMemoryQuestionsRepository.create(makeQuestion());
 		}
 		const { questions } = await sut.execute({ page });
 
