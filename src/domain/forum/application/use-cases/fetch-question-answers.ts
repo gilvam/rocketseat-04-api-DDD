@@ -17,7 +17,7 @@ export class FetchQuestionAnswersUseCase {
 		questionId,
 		page,
 	}: IFetchQuestionAnswersUseCase): Promise<IFetchQuestionAnswersUseCaseResponse> {
-		const answers = await this.answersRepository.findManyBuyQuestionId(
+		const answers = await this.answersRepository.findManyByQuestionId(
 			questionId,
 			{
 				page,

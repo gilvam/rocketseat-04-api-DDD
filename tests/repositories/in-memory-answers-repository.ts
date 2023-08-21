@@ -14,7 +14,7 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
 		return this.items.find((it) => it.id.toString() === id);
 	}
 
-	async findManyBuyQuestionId(
+	async findManyByQuestionId(
 		questionId: string,
 		{ page }: IPaginatorParams,
 	): Promise<Answer[]> {
