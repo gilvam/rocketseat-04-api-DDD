@@ -2,4 +2,6 @@ import { QuestionComment } from '@domain-forum/enterprise/entities/question-comm
 
 export interface IQuestionCommentsRepository {
 	create(questionComment: QuestionComment): Promise<void>;
+	findById(id: string): Promise<QuestionComment | undefined>;
+	delete(questionComment: QuestionComment): Promise<void>;
 }

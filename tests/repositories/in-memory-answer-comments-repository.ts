@@ -9,4 +9,13 @@ implements IAnswerCommentsRepository
 	async create(answerComment: AnswerComment) {
 		this.items.push(answerComment);
 	}
+
+	async findById(id: string): Promise<AnswerComment | undefined> {
+		return this.items.find((it) => it.id.toString() === id);
+	}
+
+	async delete(answerComment: AnswerComment): Promise<void> {
+		const index = this.items.findIndex((it) => it.id !== answerComment.id);
+		this.items.splice(index, 1);
+	}
 }
