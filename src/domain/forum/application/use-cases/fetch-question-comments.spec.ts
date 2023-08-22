@@ -4,7 +4,6 @@ import { FetchQuestionCommentsUseCase } from '@domain-forum/application/use-case
 
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
-import { makeAnswer } from '@tests/factories/make-answer';
 import { makeQuestionComment } from '@tests/factories/make-question-comment';
 import { InMemoryQuestionCommentsRepository } from '@tests/repositories/in-memory-question-comments-repository';
 
@@ -33,12 +32,13 @@ describe('Fetch question comments', () => {
 		await inMemoryQuestionCommentsRepository.create(
 			makeQuestionComment({ questionId }),
 		);
-		const { questionComments } = await sut.execute({
+		const result = await sut.execute({
 			questionId: questionId.toString(),
 			page: 1,
 		});
 
-		expect(questionComments).toHaveLength(3);
+		expect(result.isRight()).toBeTruthy();
+		expect(result.value?.questionComments).toHaveLength(3);
 	});
 
 	it('should be able to fetch paginated recent questions', async () => {
@@ -51,8 +51,9 @@ describe('Fetch question comments', () => {
 				makeQuestionComment({ questionId }),
 			);
 		}
-		const { questionComments } = await sut.execute({ questionId, page });
+		const result = await sut.execute({ questionId, page });
 
-		expect(questionComments).toHaveLength(2);
+		expect(result.isRight()).toBeTruthy();
+		expect(result.value?.questionComments).toHaveLength(2);
 	});
 });

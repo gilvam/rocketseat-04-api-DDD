@@ -1,11 +1,18 @@
 import { IAnswerCommentsRepository } from '@domain-forum/application/repositories/answer-comments-repository.interface';
+import { NotAllowedError } from '@domain-forum/application/use-cases/_errors/not-allowed.error';
+import { ResourceNotFoundError } from '@domain-forum/application/use-cases/_errors/resource-not-found.error';
+
+import { Either, left, right } from '@core/either';
 
 interface IDeleteAnswerUseCase {
 	id: string;
 	authorId: string;
 }
 
-interface IDeleteAnswerUseCaseResponse {}
+type IDeleteAnswerUseCaseResponse = Either<
+	ResourceNotFoundError | NotAllowedError,
+	{}
+>;
 
 export class DeleteAnswerCommentUseCase {
 	constructor(private answerCommentsRepository: IAnswerCommentsRepository) {}
@@ -17,13 +24,13 @@ export class DeleteAnswerCommentUseCase {
 		const answer = await this.answerCommentsRepository.findById(id);
 
 		if (!answer) {
-			throw new Error('Answer not found.');
+			return left(new ResourceNotFoundError());
 		}
 		if (authorId !== answer.authorId.toString()) {
-			throw new Error('Not allowed.');
+			return left(new NotAllowedError());
 		}
 		await this.answerCommentsRepository.delete(answer);
 
-		return {};
+		return right({});
 	}
 }

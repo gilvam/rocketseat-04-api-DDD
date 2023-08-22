@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { NotAllowedError } from '@domain-forum/application/use-cases/_errors/not-allowed.error';
 import { ChooseQuestionBestAnswerUserCase } from '@domain-forum/application/use-cases/choose-question-best-answer';
 
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
@@ -47,13 +48,12 @@ describe('Choose question best answer', () => {
 
 		await inMemoryQuestionsRepository.create(question);
 		await inMemoryAnswersRepository.create(answer);
+		const result = await sut.execute({
+			authorId: 'author-2',
+			answerId: answer.id.toString(),
+		});
 
-		expect(
-			async () =>
-				await sut.execute({
-					authorId: 'author-2',
-					answerId: answer.id.toString(),
-				}),
-		).rejects.toBeInstanceOf(Error);
+		expect(result.isLeft()).toBeTruthy();
+		expect(result.value).toBeInstanceOf(NotAllowedError);
 	});
 });

@@ -1,13 +1,19 @@
 import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
+import { ResourceNotFoundError } from '@domain-forum/application/use-cases/_errors/resource-not-found.error';
 import { Question } from '@domain-forum/enterprise/entities/question.model';
+
+import { Either, left, right } from '@core/either';
 
 interface IGetQuestionBySlugUseCase {
 	slug: string;
 }
 
-interface IGetQuestionBySlugUseCaseResponse {
-	question: Question;
-}
+type IGetQuestionBySlugUseCaseResponse = Either<
+	ResourceNotFoundError,
+	{
+		question: Question;
+	}
+>;
 
 export class GetQuestionBySlugUseCase {
 	constructor(private questionsRepository: IQuestionsRepository) {}
@@ -18,9 +24,9 @@ export class GetQuestionBySlugUseCase {
 		const question = await this.questionsRepository.findBySlug(slug);
 
 		if (!question) {
-			throw new Error('Question not found.');
+			return left(new ResourceNotFoundError());
 		}
 
-		return { question };
+		return right({ question });
 	}
 }

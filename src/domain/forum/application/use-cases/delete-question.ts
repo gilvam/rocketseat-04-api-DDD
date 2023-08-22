@@ -1,11 +1,18 @@
 import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
+import { NotAllowedError } from '@domain-forum/application/use-cases/_errors/not-allowed.error';
+import { ResourceNotFoundError } from '@domain-forum/application/use-cases/_errors/resource-not-found.error';
+
+import { Either, left, right } from '@core/either';
 
 interface IDeleteQuestionUseCase {
 	id: string;
 	authorId: string;
 }
 
-interface IDeleteQuestionUseCaseResponse {}
+type IDeleteQuestionUseCaseResponse = Either<
+	ResourceNotFoundError | NotAllowedError,
+	{}
+>;
 
 export class DeleteQuestionUseCase {
 	constructor(private questionsRepository: IQuestionsRepository) {}
@@ -17,13 +24,13 @@ export class DeleteQuestionUseCase {
 		const question = await this.questionsRepository.findById(id);
 
 		if (!question) {
-			throw new Error('Question not found.');
+			return left(new ResourceNotFoundError());
 		}
 		if (authorId !== question.id.toString()) {
-			throw new Error('Not allowed.');
+			return left(new NotAllowedError());
 		}
 		await this.questionsRepository.delete(question);
 
-		return {};
+		return right({});
 	}
 }

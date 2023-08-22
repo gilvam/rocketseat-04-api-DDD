@@ -1,6 +1,7 @@
 import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository.interface';
 import { Answer } from '@domain-forum/enterprise/entities/answer.model';
 
+import { Either, right } from '@core/either';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 interface IAnswerQuestionUseCase {
@@ -9,9 +10,7 @@ interface IAnswerQuestionUseCase {
 	content: string;
 }
 
-interface IAnswerQuestionUseCaseResponse {
-	answer: Answer;
-}
+type IAnswerQuestionUseCaseResponse = Either<null, { answer: Answer }>;
 
 export class AnswerQuestionUseCase {
 	constructor(private answersRepository: IAnswersRepository) {}
@@ -29,6 +28,6 @@ export class AnswerQuestionUseCase {
 
 		await this.answersRepository.create(answer);
 
-		return { answer };
+		return right({ answer });
 	}
 }

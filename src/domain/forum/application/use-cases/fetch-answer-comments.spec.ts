@@ -29,12 +29,12 @@ describe('Fetch answer comments', () => {
 		await inMemoryAnswerCommentsRepository.create(
 			makeAnswerComment({ answerId }),
 		);
-		const { answerComments } = await sut.execute({
+		const result = await sut.execute({
 			answerId: answerId.toString(),
 			page: 1,
 		});
-
-		expect(answerComments).toHaveLength(3);
+		expect(result.isRight()).toBeTruthy();
+		expect(result.value?.answerComments).toHaveLength(3);
 	});
 
 	it('should be able to fetch paginated recent answers', async () => {
@@ -47,8 +47,9 @@ describe('Fetch answer comments', () => {
 				makeAnswerComment({ answerId }),
 			);
 		}
-		const { answerComments } = await sut.execute({ answerId, page });
+		const result = await sut.execute({ answerId, page });
 
-		expect(answerComments).toHaveLength(2);
+		expect(result.isRight()).toBeTruthy();
+		expect(result.value?.answerComments).toHaveLength(2);
 	});
 });

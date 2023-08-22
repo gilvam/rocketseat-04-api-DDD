@@ -1,14 +1,19 @@
 import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository.interface';
 import { Answer } from '@domain-forum/enterprise/entities/answer.model';
 
+import { Either, right } from '@core/either';
+
 interface IFetchQuestionAnswersUseCase {
 	questionId: string;
 	page: number;
 }
 
-interface IFetchQuestionAnswersUseCaseResponse {
-	answers: Answer[];
-}
+type IFetchQuestionAnswersUseCaseResponse = Either<
+	null,
+	{
+		answers: Answer[];
+	}
+>;
 
 export class FetchQuestionAnswersUseCase {
 	constructor(private answersRepository: IAnswersRepository) {}
@@ -24,6 +29,6 @@ export class FetchQuestionAnswersUseCase {
 			},
 		);
 
-		return { answers };
+		return right({ answers });
 	}
 }

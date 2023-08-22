@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { NotAllowedError } from '@domain-forum/application/use-cases/_errors/not-allowed.error';
 import { DeleteQuestionCommentUseCase } from '@domain-forum/application/use-cases/delete-question-comment';
 
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
@@ -37,13 +38,12 @@ describe('Delete question comment', () => {
 		});
 
 		await inMemoryQuestionCommentsRepository.create(questionComment);
+		const result = await sut.execute({
+			id: questionComment.id.toString(),
+			authorId: 'author-2',
+		});
 
-		expect(
-			async () =>
-				await sut.execute({
-					id: questionComment.id.toString(),
-					authorId: 'author-2',
-				}),
-		).rejects.toBeInstanceOf(Error);
+		expect(result.isLeft()).toBeTruthy();
+		expect(result.value).toBeInstanceOf(NotAllowedError);
 	});
 });

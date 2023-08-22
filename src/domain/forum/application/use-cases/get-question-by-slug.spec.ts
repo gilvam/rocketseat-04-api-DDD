@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, test } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { GetQuestionBySlugUseCase } from '@domain-forum/application/use-cases/get-question-by-slug';
 
@@ -20,11 +20,12 @@ describe('Find question by slug', () => {
 
 		await inMemoryQuestionsRepository.create(newQuestion);
 
-		const { question } = await sut.execute({
+		const result = await sut.execute({
 			slug: 'example-question',
 		});
 
-		expect(question.id).toBeTruthy();
-		expect(question.title).toEqual(newQuestion.title);
+		expect(result.isRight()).toBeTruthy();
+		expect(result.value?.question.id).toBeTruthy();
+		expect(result.value?.question.title).toEqual(newQuestion.title);
 	});
 });

@@ -24,14 +24,15 @@ describe('Comment on answer', () => {
 		const answer = makeAnswer();
 
 		await inMemoryAnswersRepository.create(answer);
-		await sut.execute({
+		const result = await sut.execute({
 			answerId: answer.id.toString(),
 			authorId: answer.authorId.toString(),
 			content: 'content test',
 		});
 
-		expect(inMemoryAnswerCommentsRepository.items[0].content).equals(
-			'content test',
+		expect(result.isRight()).toBeTruthy();
+		expect(inMemoryAnswerCommentsRepository.items[0]).equals(
+			result.value?.answerComment,
 		);
 	});
 });

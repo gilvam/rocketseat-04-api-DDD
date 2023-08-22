@@ -1,7 +1,9 @@
 import { IQuestionCommentsRepository } from '@domain-forum/application/repositories/question-comments-repository.interface';
 import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
+import { ResourceNotFoundError } from '@domain-forum/application/use-cases/_errors/resource-not-found.error';
 import { QuestionComment } from '@domain-forum/enterprise/entities/question-comment.model';
 
+import { Either, left, right } from '@core/either';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 interface ICommentOnQuestionUseCase {
@@ -10,9 +12,12 @@ interface ICommentOnQuestionUseCase {
 	content: string;
 }
 
-interface ICommentOnQuestionUseCaseResponse {
-	questionComment: QuestionComment;
-}
+type ICommentOnQuestionUseCaseResponse = Either<
+	ResourceNotFoundError,
+	{
+		questionComment: QuestionComment;
+	}
+>;
 
 export class CommentOnQuestionUseCase {
 	constructor(
@@ -27,7 +32,7 @@ export class CommentOnQuestionUseCase {
 	}: ICommentOnQuestionUseCase): Promise<ICommentOnQuestionUseCaseResponse> {
 		const question = await this.questionsRepository.findById(questionId);
 		if (!question) {
-			throw new Error('Question not found.');
+			return left(new ResourceNotFoundError());
 		}
 
 		const questionComment = await QuestionComment.create({
@@ -37,6 +42,6 @@ export class CommentOnQuestionUseCase {
 		});
 		await this.questionCommentsRepository.create(questionComment);
 
-		return { questionComment };
+		return right({ questionComment });
 	}
 }
