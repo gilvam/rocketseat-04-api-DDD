@@ -1,3 +1,4 @@
+import { IAnswerAttachmentsRepository } from '@domain-forum/application/repositories/answer-attachments-repository.interface';
 import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository.interface';
 import { Answer } from '@domain-forum/enterprise/entities/answer.model';
 
@@ -5,6 +6,10 @@ import { IPaginatorParams } from '@core/repositories/paginator-params';
 
 export class InMemoryAnswersRepository implements IAnswersRepository {
 	items: Answer[] = [];
+
+	constructor(
+		private answerAttachmentsRepository: IAnswerAttachmentsRepository,
+	) {}
 
 	async create(answer: Answer) {
 		this.items.push(answer);
@@ -26,6 +31,10 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
 	async delete(answer: Answer): Promise<void> {
 		const index = this.items.findIndex((it) => it.id !== answer.id);
 		this.items.splice(index, 1);
+
+		await this.answerAttachmentsRepository.deleteManyByAnswerId(
+			answer.id.toString(),
+		);
 	}
 
 	async edit(answer: Answer): Promise<Answer> {

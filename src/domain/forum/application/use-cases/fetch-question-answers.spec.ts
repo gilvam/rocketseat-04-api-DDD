@@ -5,14 +5,18 @@ import { FetchQuestionAnswersUseCase } from '@domain-forum/application/use-cases
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 import { makeAnswer } from '@tests/factories/make-answer';
+import { InMemoryAnswerAttachmentsRepository } from '@tests/repositories/in-memory-answer-attachments-repository';
 import { InMemoryAnswersRepository } from '@tests/repositories/in-memory-answers-repository';
 
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let sut: FetchQuestionAnswersUseCase;
 
 describe('Fetch question answers', () => {
 	beforeEach(() => {
-		inMemoryAnswersRepository = new InMemoryAnswersRepository();
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
 		sut = new FetchQuestionAnswersUseCase(inMemoryAnswersRepository);
 	});
 

@@ -1,10 +1,10 @@
 import { UniqueEntityId } from './unique-entity-id';
 
-export class Entity<T> {
+export abstract class Entity<Props> {
 	private readonly _id: UniqueEntityId;
-	protected props: T;
+	protected props: Props;
 
-	protected constructor(props: T, id?: UniqueEntityId) {
+	protected constructor(props: Props, id?: UniqueEntityId) {
 		this.props = props;
 		this._id = id ?? new UniqueEntityId();
 	}

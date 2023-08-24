@@ -6,15 +6,23 @@ import { DeleteAnswerUseCase } from '@domain-forum/application/use-cases/delete-
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 import { makeAnswer } from '@tests/factories/make-answer';
+import { makeQuestionAttachment } from '@tests/factories/make-answer-attachment';
+import { makeAnswerAttachment } from '@tests/factories/make-question-attachment';
+import { InMemoryAnswerAttachmentsRepository } from '@tests/repositories/in-memory-answer-attachments-repository';
 import { InMemoryAnswersRepository } from '@tests/repositories/in-memory-answers-repository';
 
-let inMemoryAnswerRepository: InMemoryAnswersRepository;
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
+let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let sut: DeleteAnswerUseCase;
 
 describe('Delete answer', () => {
 	beforeEach(() => {
-		inMemoryAnswerRepository = new InMemoryAnswersRepository();
-		sut = new DeleteAnswerUseCase(inMemoryAnswerRepository);
+		inMemoryAnswerAttachmentsRepository =
+			new InMemoryAnswerAttachmentsRepository();
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
+		sut = new DeleteAnswerUseCase(inMemoryAnswersRepository);
 	});
 
 	it('UseCase be able to delete answer', async () => {
@@ -22,10 +30,21 @@ describe('Delete answer', () => {
 		const authorId = 'answer-1';
 		const newAnswer = makeAnswer({}, new UniqueEntityId(id));
 
-		await inMemoryAnswerRepository.create(newAnswer);
+		await inMemoryAnswersRepository.create(newAnswer);
+		inMemoryAnswerAttachmentsRepository.items.push(
+			makeAnswerAttachment({
+				answerId: newAnswer.id,
+				attachmentId: new UniqueEntityId('1'),
+			}),
+			makeAnswerAttachment({
+				answerId: newAnswer.id,
+				attachmentId: new UniqueEntityId('2'),
+			}),
+		);
 		await sut.execute({ id, authorId });
 
-		expect(inMemoryAnswerRepository.items).toHaveLength(0);
+		expect(inMemoryAnswersRepository.items).toHaveLength(0);
+		expect(inMemoryAnswerAttachmentsRepository.items).toHaveLength(0);
 	});
 
 	it('UseCase not be able to delete answer', async () => {
@@ -33,7 +52,7 @@ describe('Delete answer', () => {
 		const authorId = 'answer-2';
 		const newAnswer = makeAnswer({}, new UniqueEntityId(id));
 
-		await inMemoryAnswerRepository.create(newAnswer);
+		await inMemoryAnswersRepository.create(newAnswer);
 		const result = await sut.execute({ id, authorId });
 
 		expect(result.isLeft()).toBeTruthy();

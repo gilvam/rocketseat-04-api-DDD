@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
 
+import { QuestionAttachmentList } from '@domain-forum/enterprise/entities/question-attachment-list.model';
 import { Optional } from '@domain-forum/enterprise/entities/types/optional';
 import { Slug } from '@domain-forum/enterprise/entities/value-objects/slug';
 
-import { Entity } from '@core/entities/entity';
+import { AggregateRoot } from '@core/entities/aggregate-root';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 export interface IQuestion {
@@ -12,11 +13,12 @@ export interface IQuestion {
 	title: string;
 	content: string;
 	slug: Slug;
+	attachments: QuestionAttachmentList;
 	createdAt: Date;
 	updatedAt?: Date;
 }
 
-export class Question extends Entity<IQuestion> {
+export class Question extends AggregateRoot<IQuestion> {
 	get authorId() {
 		return this.props.authorId;
 	}
@@ -49,6 +51,15 @@ export class Question extends Entity<IQuestion> {
 		this.touch();
 	}
 
+	get attachments(): QuestionAttachmentList {
+		return this.props.attachments;
+	}
+
+	set attachments(attachments: QuestionAttachmentList) {
+		this.props.attachments = attachments;
+		this.touch();
+	}
+
 	get slug() {
 		return this.props.slug;
 	}
@@ -70,13 +81,14 @@ export class Question extends Entity<IQuestion> {
 	}
 
 	static create(
-		props: Optional<IQuestion, 'createdAt' | 'slug'>,
+		props: Optional<IQuestion, 'createdAt' | 'slug' | 'attachments'>,
 		id?: UniqueEntityId,
 	) {
 		return new Question(
 			{
 				...props,
 				slug: props.slug ?? new Slug(props.title),
+				attachments: props.attachments ?? new QuestionAttachmentList(),
 				createdAt: props.createdAt ?? new Date(),
 			},
 			id,

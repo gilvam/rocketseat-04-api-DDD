@@ -1,3 +1,5 @@
+import { AnswerAttachmentList } from '@domain-forum/enterprise/entities/answer-attachment-list.model';
+
 import { Entity } from '@core/entities/entity';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
@@ -7,6 +9,7 @@ export interface IAnswer {
 	authorId: UniqueEntityId;
 	questionId: UniqueEntityId;
 	content: string;
+	attachments: AnswerAttachmentList;
 	createdAt: Date;
 	updatedAt?: Date;
 }
@@ -29,6 +32,15 @@ export class Answer extends Entity<IAnswer> {
 		this.touch();
 	}
 
+	get attachments(): AnswerAttachmentList {
+		return this.props.attachments;
+	}
+
+	set attachments(attachments: AnswerAttachmentList) {
+		this.props.attachments = attachments;
+		this.touch();
+	}
+
 	get createdAt() {
 		return this.props.createdAt;
 	}
@@ -41,10 +53,14 @@ export class Answer extends Entity<IAnswer> {
 		return this.props.content.substring(0, 120).trim().concat('...');
 	}
 
-	static create(props: Optional<IAnswer, 'createdAt'>, id?: UniqueEntityId) {
+	static create(
+		props: Optional<IAnswer, 'createdAt' | 'attachments'>,
+		id?: UniqueEntityId,
+	) {
 		return new Answer(
 			{
 				...props,
+				attachments: props.attachments ?? new AnswerAttachmentList(),
 				createdAt: props.createdAt ?? new Date(),
 			},
 			id,

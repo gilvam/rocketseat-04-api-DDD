@@ -1,3 +1,4 @@
+import { IQuestionAttachmentsRepository } from '@domain-forum/application/repositories/question-attachments-repository.interface';
 import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
 import { Question } from '@domain-forum/enterprise/entities/question.model';
 
@@ -5,6 +6,10 @@ import { IPaginatorParams } from '@core/repositories/paginator-params';
 
 export class InMemoryQuestionsRepository implements IQuestionsRepository {
 	items: Question[] = [];
+
+	constructor(
+		private questionAttachmentsRepository: IQuestionAttachmentsRepository,
+	) {}
 
 	async create(question: Question) {
 		this.items.push(question);
@@ -27,6 +32,9 @@ export class InMemoryQuestionsRepository implements IQuestionsRepository {
 	async delete(question: Question): Promise<void> {
 		const index = this.items.findIndex((it) => it.id !== question.id);
 		this.items.splice(index, 1);
+		await this.questionAttachmentsRepository.deleteManyByQuestionId(
+			question.id.toString(),
+		);
 	}
 
 	async edit(question: Question): Promise<Question> {

@@ -3,16 +3,20 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { CommentOnQuestionUseCase } from '@domain-forum/application/use-cases/comment-on-question';
 
 import { makeQuestion } from '@tests/factories/make-question';
+import { InMemoryQuestionAttachmentsRepository } from '@tests/repositories/in-memory-question-attachments-repository';
 import { InMemoryQuestionCommentsRepository } from '@tests/repositories/in-memory-question-comments-repository';
 import { InMemoryQuestionsRepository } from '@tests/repositories/in-memory-questions-repository';
 
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository;
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository;
 let sut: CommentOnQuestionUseCase;
 
 describe('Comment on question', () => {
 	beforeEach(() => {
-		inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
+		inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+			inMemoryQuestionAttachmentsRepository,
+		);
 		inMemoryQuestionCommentsRepository =
 			new InMemoryQuestionCommentsRepository();
 		sut = new CommentOnQuestionUseCase(
