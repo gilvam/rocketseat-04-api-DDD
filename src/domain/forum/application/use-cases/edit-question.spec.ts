@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { NotAllowedError } from '@domain-forum/application/use-cases/_errors/not-allowed.error';
 import { EditQuestionUseCase } from '@domain-forum/application/use-cases/edit-question';
 
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
+import { NotAllowedError } from '@core/errors/errors/not-allowed.error';
 
 import { makeQuestionAttachment } from '@tests/factories/make-answer-attachment';
 import { makeQuestion } from '@tests/factories/make-question';

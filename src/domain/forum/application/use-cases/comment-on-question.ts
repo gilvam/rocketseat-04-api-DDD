@@ -1,10 +1,10 @@
 import { IQuestionCommentsRepository } from '@domain-forum/application/repositories/question-comments-repository.interface';
 import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
-import { ResourceNotFoundError } from '@domain-forum/application/use-cases/_errors/resource-not-found.error';
 import { QuestionComment } from '@domain-forum/enterprise/entities/question-comment.model';
 
 import { Either, left, right } from '@core/either';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
+import { ResourceNotFoundError } from '@core/errors/errors/resource-not-found.error';
 
 interface ICommentOnQuestionUseCase {
 	authorId: string;

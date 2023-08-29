@@ -5,19 +5,36 @@
 ## Domain
 
 - Domain Experts
-    - Conversation
+  - Conversation
 - Ubiquitous Language
 
 - User
-    - Client
-    - Supplier
-    - Attendant
-    - Bartender
+  - Client
+  - Supplier
+  - Attendant
+  - Bartender
 
 - Aggregates
 - Value Objects
 - Domain Events
 - Subdomains (Bounded Contexts)
+  - core:
+    - purchase
+    - catalog
+    - payment
+    - delivery
+    - invoicing
+
+  - supporting: ```it supports CORE to work```
+    - example:
+      - stock
+
+  - generic: ```it is necessary but not the most important```
+    - example:
+      - customer notification
+      - promotions
+      - chat
+
 - Entities
 - Use Cases
 
@@ -31,11 +48,11 @@
 
 > #### Dev
 >  - Domain entities:
->    - Answer
->    - Instructor
->    - Question
+     >    - Answer
+     >    - Instructor
+     >    - Question
 >    - Student
->    
-> 
+>
+>
 >  - Actions / use cases:
->    - answer-question.ts
+     >    - answer-question.ts

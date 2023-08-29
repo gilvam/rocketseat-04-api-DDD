@@ -1,10 +1,10 @@
 import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository.interface';
 import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
-import { NotAllowedError } from '@domain-forum/application/use-cases/_errors/not-allowed.error';
-import { ResourceNotFoundError } from '@domain-forum/application/use-cases/_errors/resource-not-found.error';
 import { Question } from '@domain-forum/enterprise/entities/question.model';
 
 import { Either, left, right } from '@core/either';
+import { NotAllowedError } from '@core/errors/errors/not-allowed.error';
+import { ResourceNotFoundError } from '@core/errors/errors/resource-not-found.error';
 
 interface IChooseQuestionBestAnswer {
 	authorId: string;

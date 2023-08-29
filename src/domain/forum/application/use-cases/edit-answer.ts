@@ -1,13 +1,13 @@
 import { IAnswerAttachmentsRepository } from '@domain-forum/application/repositories/answer-attachments-repository.interface';
 import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository.interface';
-import { NotAllowedError } from '@domain-forum/application/use-cases/_errors/not-allowed.error';
-import { ResourceNotFoundError } from '@domain-forum/application/use-cases/_errors/resource-not-found.error';
 import { AnswerAttachmentList } from '@domain-forum/enterprise/entities/answer-attachment-list.model';
 import { AnswerAttachment } from '@domain-forum/enterprise/entities/answer-attachment.model';
 import { Answer } from '@domain-forum/enterprise/entities/answer.model';
 
 import { Either, left, right } from '@core/either';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
+import { NotAllowedError } from '@core/errors/errors/not-allowed.error';
+import { ResourceNotFoundError } from '@core/errors/errors/resource-not-found.error';
 
 interface IEditAnswerUseCase {
 	id: string;

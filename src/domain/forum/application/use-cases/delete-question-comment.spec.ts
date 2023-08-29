@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { NotAllowedError } from '@domain-forum/application/use-cases/_errors/not-allowed.error';
 import { DeleteQuestionCommentUseCase } from '@domain-forum/application/use-cases/delete-question-comment';
 
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
+import { NotAllowedError } from '@core/errors/errors/not-allowed.error';
 
 import { makeQuestionComment } from '@tests/factories/make-question-comment';
 import { InMemoryQuestionCommentsRepository } from '@tests/repositories/in-memory-question-comments-repository';
