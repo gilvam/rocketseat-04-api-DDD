@@ -1,4 +1,4 @@
-import { OnAnswerCreated } from '@domain-notification/application/subscribers/on-answer-created';
+import { OnQuestionBestAnswerChosen } from '@domain-notification/application/subscribers/on-question-best-answer-chosen';
 import {
 	ISendNotificationUseCase,
 	ISendNotificationUseCaseResponse,
@@ -26,7 +26,7 @@ let sendNotificationExecuteSpy: SpyInstance<
 	Promise<ISendNotificationUseCaseResponse>
 >;
 
-describe('On Answer Created', () => {
+describe('On question best answer chosen', () => {
 	beforeEach(() => {
 		inMemoryQuestionAttachmentsRepository =
 			new InMemoryQuestionAttachmentsRepository();
@@ -45,14 +45,22 @@ describe('On Answer Created', () => {
 
 		sendNotificationExecuteSpy = vi.spyOn(sendNotificationUseCase, 'execute');
 
-		new OnAnswerCreated(inMemoryQuestionsRepository, sendNotificationUseCase);
+		new OnQuestionBestAnswerChosen(
+			inMemoryAnswersRepository,
+			sendNotificationUseCase,
+		);
 	});
-	it('should send a notification when an answer is created', async () => {
+
+	it('should send a notification when topic has new best answer chosen', async () => {
 		const question = makeQuestion();
 		const answer = makeAnswer({ questionId: question.id });
 
 		await inMemoryQuestionsRepository.create(question);
 		await inMemoryAnswersRepository.create(answer);
+
+		question.bestAnswerId = answer.id;
+
+		await inMemoryQuestionsRepository.edit(question);
 
 		await waitFor(() => {
 			expect(sendNotificationExecuteSpy).toHaveBeenCalled();

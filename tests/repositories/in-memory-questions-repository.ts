@@ -2,6 +2,7 @@ import { IQuestionAttachmentsRepository } from '@domain-forum/application/reposi
 import { IQuestionsRepository } from '@domain-forum/application/repositories/questions-repository.interface';
 import { Question } from '@domain-forum/enterprise/entities/question.model';
 
+import { DomainEvents } from '@core/events/domain-events';
 import { IPaginatorParams } from '@core/repositories/paginator-params';
 
 export class InMemoryQuestionsRepository implements IQuestionsRepository {
@@ -13,6 +14,7 @@ export class InMemoryQuestionsRepository implements IQuestionsRepository {
 
 	async create(question: Question) {
 		this.items.push(question);
+		DomainEvents.dispatchEventsForAggregate(question.id);
 	}
 
 	async findBySlug(slug: string): Promise<Question | undefined> {
@@ -40,6 +42,7 @@ export class InMemoryQuestionsRepository implements IQuestionsRepository {
 	async edit(question: Question): Promise<Question> {
 		const index = this.items.findIndex((it) => it.id !== question.id);
 		this.items[index] = question;
+		DomainEvents.dispatchEventsForAggregate(question.id);
 		return question;
 	}
 }
