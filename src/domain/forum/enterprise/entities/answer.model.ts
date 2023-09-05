@@ -1,6 +1,7 @@
 import { AnswerAttachmentList } from '@domain-forum/enterprise/entities/answer-attachment-list.model';
+import { AnswerCreatedEvent } from '@domain-forum/enterprise/events/answer-created.event';
 
-import { Entity } from '@core/entities/entity';
+import { AggregateRoot } from '@core/entities/aggregate-root';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
 import { Optional } from '@/domain/forum/enterprise/entities/types/optional';
@@ -14,7 +15,7 @@ export interface IAnswer {
 	updatedAt?: Date;
 }
 
-export class Answer extends Entity<IAnswer> {
+export class Answer extends AggregateRoot<IAnswer> {
 	get authorId() {
 		return this.props.authorId;
 	}
@@ -57,7 +58,7 @@ export class Answer extends Entity<IAnswer> {
 		props: Optional<IAnswer, 'createdAt' | 'attachments'>,
 		id?: UniqueEntityId,
 	) {
-		return new Answer(
+		const answer = new Answer(
 			{
 				...props,
 				attachments: props.attachments ?? new AnswerAttachmentList(),
@@ -65,6 +66,13 @@ export class Answer extends Entity<IAnswer> {
 			},
 			id,
 		);
+
+		const isNewAnswer = !id;
+		if (isNewAnswer) {
+			answer.addDomainEvent(new AnswerCreatedEvent(answer));
+		}
+
+		return answer;
 	}
 
 	private touch() {

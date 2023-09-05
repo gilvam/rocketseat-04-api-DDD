@@ -4,13 +4,13 @@ import { Notification } from '@domain-notification/enterprise/entities/notificat
 import { Either, right } from '@core/either';
 import { UniqueEntityId } from '@core/entities/unique-entity-id';
 
-interface ISendNotificationUseCase {
+export interface ISendNotificationUseCase {
 	recipientId: string;
 	title: string;
 	content: string;
 }
 
-type ISendNotificationUseCaseResponse = Either<
+export type ISendNotificationUseCaseResponse = Either<
 	null,
 	{
 		notification: Notification;

@@ -6,7 +6,6 @@ import { UniqueEntityId } from '@core/entities/unique-entity-id';
 import { NotAllowedError } from '@core/errors/errors/not-allowed.error';
 
 import { makeAnswer } from '@tests/factories/make-answer';
-import { makeQuestionAttachment } from '@tests/factories/make-answer-attachment';
 import { makeAnswerAttachment } from '@tests/factories/make-question-attachment';
 import { InMemoryAnswerAttachmentsRepository } from '@tests/repositories/in-memory-answer-attachments-repository';
 import { InMemoryAnswersRepository } from '@tests/repositories/in-memory-answers-repository';

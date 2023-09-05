@@ -2,6 +2,7 @@ import { IAnswerAttachmentsRepository } from '@domain-forum/application/reposito
 import { IAnswersRepository } from '@domain-forum/application/repositories/answers-repository.interface';
 import { Answer } from '@domain-forum/enterprise/entities/answer.model';
 
+import { DomainEvents } from '@core/events/domain-events';
 import { IPaginatorParams } from '@core/repositories/paginator-params';
 
 export class InMemoryAnswersRepository implements IAnswersRepository {
@@ -13,6 +14,8 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
 
 	async create(answer: Answer) {
 		this.items.push(answer);
+
+		DomainEvents.dispatchEventsForAggregate(answer.id);
 	}
 
 	async findById(id: string): Promise<Answer | undefined> {
@@ -40,6 +43,9 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
 	async edit(answer: Answer): Promise<Answer> {
 		const index = this.items.findIndex((it) => it.id !== answer.id);
 		this.items[index] = answer;
+
+		DomainEvents.dispatchEventsForAggregate(answer.id);
+
 		return answer;
 	}
 }
